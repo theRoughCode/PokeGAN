@@ -23,13 +23,16 @@ My first iteration is based off of Tensorflow's [tutorial](https://www.tensorflo
 - Use Dropouts (i.e. 50% in generators)
 
 This model worked really well on 28x28 images. Here's a gif of the generated images produced during training:
-
-![DCGAN](assets/dcgan.gif)
+<p align="center">
+  <img src="assets/dcgan.gif" alt="DCGAN">
+</p>
 
 However, the sprites produced are quite small and the details are not too clear. This was because the images in the dataset consisted of white space around the sprites. I preprocessed the images using [Wand](http://docs.wand-py.org/en/0.5.9/) to remove the whitespace while maintaining 128x128 dimensions. This provides a more consistent view of the sprites. The generated images now look like this:
-
-![DCGAN2](assets/dcgan_mode_collapse.gif)
+<p align="center">
+  <img src="assets/dcgan_mode_collapse.gif" alt="DCGAN2">
+</p>
 
 However, we see [mode collapse](https://developers.google.com/machine-learning/gan/problems#mode-collapse) occurring. So, I looked to newer models, such as Progressive GAN and StyleGAN, to generate higher quality images. I settled for Progressive GAN first because it was simpler and was what StyleGAN was based off of. Currently, I'm experimenting with 3 layers: 32x32 &rarr; 68x68 &rarr; 128x128. Here's a preview of what it looks like:
-
-![ProgGAN](assets/proggan.gif)
+<p align="center">
+  <img src="assets/proggan.gif" alt="ProgGAN">
+</p>
