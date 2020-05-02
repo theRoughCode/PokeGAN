@@ -1,7 +1,12 @@
 # PokéGAN
-
 With every new generation of Pokémon, a whole slew of new species are introduced to the game, amounting to over 800 Pokémon species to-date!
 Wouldn't it be cool if we could use these Pokémon and train a model to generate new Pokémon for us?
+
+
+<p align="center">
+    <img src="https://imgix.bustle.com/rehost/2016/9/14/b59c717c-7002-493e-b0bc-44bb1b10b417.jpg?w=970&h=546&fit=crop&crop=faces&auto=format%2Ccompress&cs=srgb&q=70" width=400>
+</p>
+
 
 ## Generative Adversarial Networks
 PokéGAN is a GAN (Generative Adversarial Network) trained on images obtained from [this repo](https://github.com/PokeAPI/sprites). It involves 2 competing neural networks, a generator and a discriminator.
