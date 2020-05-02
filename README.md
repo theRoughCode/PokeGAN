@@ -37,7 +37,13 @@ However, the sprites produced are quite small and the details are not too clear.
   <img src="assets/dcgan_mode_collapse.gif" alt="DCGAN2">
 </p>
 
-However, we see [mode collapse](https://developers.google.com/machine-learning/gan/problems#mode-collapse) occurring. So, I looked to newer models, such as Progressive GAN and StyleGAN, to generate higher quality images. I settled for Progressive GAN first because it was simpler and was what StyleGAN was based off of. Currently, I'm experimenting with 3 layers: 32x32 &rarr; 68x68 &rarr; 128x128. Here's a preview of what it looks like:
+However, we see [mode collapse](https://developers.google.com/machine-learning/gan/problems#mode-collapse) occurring. So, I looked to newer models, such as Progressive GAN and StyleGAN, to generate higher quality images. I settled for Progressive GAN first because it was simpler and was what StyleGAN was based off of. Currently, I'm experimenting with a mix of DCGAN and Progressive GAN without the fade-in layers. With 3 layers, 32x32 &rarr; 68x68 &rarr; 128x128, here's a preview of what it looks like:
 <p align="center">
   <img src="assets/proggan.gif" alt="ProgGAN">
 </p>
+
+## Next Steps
+1. Use equalized learning rate in Progressive GAN
+2. StyleGAN
+3. Split dataset by types or colours. Easier to train? More detail/realistic?
+
