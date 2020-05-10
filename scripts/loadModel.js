@@ -1,10 +1,8 @@
 WIDTH = 64;
 HEIGHT = 64;
-const modelURL = "http://localhost:8080/model.json";
-const weightsURLPrefix = "http://localhost:8080/";
-// const modelURL = 'https://raw.githubusercontent.com/theRoughCode/PokeGAN/master/models/dcgan64/generator/model.json';
-// const weightsURLPrefix = 'https://github.com/theRoughCode/PokeGAN/raw/master/models/dcgan64/generator';
-const modelIndexDbUrl = "indexeddb://pokegan-model:v1"; // include v1 for cache versioning
+const modelURL = 'https://raw.githubusercontent.com/theRoughCode/PokeGAN/master/models/dcgan64/model.json';
+const weightsURLPrefix = 'https://github.com/theRoughCode/PokeGAN/tree/master/models/dcgan64';
+const modelIndexDbUrl = "indexeddb://pokegan-model:v2"; // include v1 for cache versioning
 
 const getImage = (model, input) => {
   // Get output: values in [-1, 1]
