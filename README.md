@@ -46,4 +46,16 @@ However, we see [mode collapse](https://developers.google.com/machine-learning/g
 1. Use equalized learning rate in Progressive GAN
 2. StyleGAN
 3. Split dataset by types or colours. Easier to train? More detail/realistic?
+4. More filters == sharper image? Bigger kernels == smoother images? [Source](https://medium.com/@utk.is.here/keep-calm-and-train-a-gan-pitfalls-and-tips-on-training-generative-adversarial-networks-edd529764aa9)
+5. Spectral normalization in DCGAN
+6. ProgGAN might need more epochs (paper recommends 800k samples per layer)
+7. cDCGAN: conditional DCGAN using labels (i.e. Pokémon types)
+    - binary discriminator output: slow results
+    - N+1 classes
+8. Optimize gen/dis learning rate of 1:2 (i.e. generator = 1e-4, discriminator=2e-4) [source](https://arxiv.org/pdf/1706.08500.pdf)
+9. Cycle between resolutions. 64x64 (50 epochs) -> 128x128 (200 epochs) -> ...
+    - Lower res learns outline, higher res learns details
+    - Higher learning rate for low res
+    - Average results, good outline, no detail. Train more epochs at high res?
+10. Train DCGAN on one class at a time
 
