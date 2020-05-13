@@ -1,22 +1,22 @@
-@media screen and (orientation:portrait) {
-    #loading {
-        height: 100vh;
-        width: 100vw;
-    }
-    .loader {
-      max-width: 500;
-      width: 50vw;
-    }
+@media screen and (orientation: portrait) {
+  #loading {
+    height: 100vh;
+    width: 100vw;
+  }
+  .loader {
+    max-width: 500;
+    width: 50vw;
+  }
 }
-@media screen and (orientation:landscape) {
-    #loading {
-        height: 100vh;
-        width: 100vw;
-    }
-    .loader {
-      max-height: 500;
-      height: 60vh;
-    }
+@media screen and (orientation: landscape) {
+  #loading {
+    height: 100vh;
+    width: 100vw;
+  }
+  .loader {
+    max-height: 500;
+    height: 60vh;
+  }
 }
 /* Loading Div */
 #loading {
@@ -182,4 +182,8 @@
   margin-top: 60px;
   font-size: 1.2em;
   text-align: center;
+}
+
+img {
+  image-rendering: pixelated;
 }

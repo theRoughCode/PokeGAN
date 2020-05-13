@@ -1,8 +1,9 @@
-WIDTH = 64;
-HEIGHT = 64;
-const modelURL = 'https://raw.githubusercontent.com/theRoughCode/PokeGAN/master/models/dcgan64/model.json';
-const weightsURLPrefix = 'https://github.com/theRoughCode/PokeGAN/tree/master/models/dcgan64';
-const modelIndexDbUrl = "indexeddb://pokegan-model:v2"; // include v1 for cache versioning
+WIDTH = 16;
+HEIGHT = 16;
+const modelName = 'proggan_16x16'
+const modelURL = `https://raw.githubusercontent.com/theRoughCode/PokeGAN/master/models/${modelName}/model.json`;
+const weightsURLPrefix = `https://github.com/theRoughCode/PokeGAN/tree/master/models/${modelName}`;
+const modelIndexDbUrl = "indexeddb://pokegan-model:v1"; // include version for cache versioning
 
 const getImage = (model, input) => {
   // Get output: values in [-1, 1]
@@ -20,7 +21,10 @@ const fetchModel = async () => {
   console.log("Loading PokeGAN...");
   try {
     // Try loading locally saved model
-    const model = await tf.loadLayersModel(modelIndexDbUrl);
+    const model = await tf.loadGraphModel(modelIndexDbUrl, {
+      strict: true,
+      weightPathPrefix: weightsURLPrefix,
+    });
     console.log("Model loaded from IndexedDB");
 
     return model;
@@ -28,7 +32,10 @@ const fetchModel = async () => {
     console.log(error);
     // If local load fails, get it from the server
     try {
-      const model = await tf.loadLayersModel(modelURL, { strict: true });
+      const model = await tf.loadGraphModel(modelURL, {
+        strict: true,
+        weightPathPrefix: weightsURLPrefix,
+      });
       console.log("Model loaded from HTTP.");
 
       // Store the downloaded model locally for future use
