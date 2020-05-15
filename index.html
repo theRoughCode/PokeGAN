@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>My page</title>
+    <title>Pokémon Generator</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+    <meta property="og:title" content="Pokémon Generator">
+    <meta property="og:description" content="Generate your own Pokémon!">
+    <meta property="og:image" content="https://raw.githubusercontent.com/theRoughCode/PokeGAN/master/assets/example.png">
+    <meta property="og:url" content="https://www.raphaelkoh.me/PokeGAN/">
     <script src="scripts/vendor/react.development.js"></script>
     <script src="scripts/vendor/react-dom.development.js"></script>
     <script src="scripts/vendor/material-ui.development.js"></script>
@@ -50,7 +54,6 @@
     </div>
      <div id="main" style="display: none;">
         <div id="root"></div>
-        <!-- <img id='gen-img' width="128s" height="128s" /> -->
     </div>
     
     <script src="scripts/utils.js"></script>
@@ -77,24 +80,30 @@
             CardMedia,
             CardContent,
             CardActions,
+            Dialog,
+            DialogTitle,
+            DialogContent,
+            DialogContentText,
+            DialogActions,
+            TextField,
         } = MaterialUI;
 
         // Create a theme instance.
         const theme = createMuiTheme({
-        palette: {
-            primary: {
-                main: "#3c5aa6",
+            palette: {
+                primary: {
+                    main: "#3c5aa6",
+                },
+                secondary: {
+                    main: "#2a75bb",
+                },
+                error: {
+                    main: colors.red.A400,
+                },
+                background: {
+                    default: "#fff",
+                },
             },
-            secondary: {
-                main: "#2a75bb",
-            },
-            error: {
-                main: colors.red.A400,
-            },
-            background: {
-                default: "#fff",
-            },
-        },
         });
 
         const useStyles = makeStyles((theme) => ({
@@ -162,14 +171,14 @@
             );
         }
 
-        function ImageCard() {
+        function ImageCard({ handleDialogOpen }) {
             const classes = useStyles();
             
             return (
                 <Card id='image-card' className={classes.imageCard}>
                     <img id='poke-img' src="" width="256" height="256" />
                     <CardActions>
-                        <Button size="small" color="primary" onClick={share}>
+                        <Button size="small" color="primary" onClick={handleDialogOpen}>
                             Share
                         </Button>
                     </CardActions>
@@ -177,24 +186,90 @@
             );
         }
 
+        function ShareDialog({ handleClose, open }) {
+            const [name, setName] = React.useState('');
+            const [error, setError] = React.useState(false);
+            const [errorText, setErrorText] = React.useState('');
+            const MAX_LENGTH = 20;
+
+            const handleChange = (event) => {
+                setError(false);
+                setErrorText('');
+                setName(event.target.value);
+            };
+
+            const shareImage = () => {
+                // Perform validation check
+                if (name.length === 0) {
+                    setErrorText('Cannot be left blank.');
+                    setError(true);
+                    return;
+                }
+                if (name.length > MAX_LENGTH) {
+                    setErrorText(`Cannot exceed ${MAX_LENGTH} characters.`);
+                    setError(true);
+                    return;
+                }
+                if (name.indexOf(' ') >= 0) {
+                    setErrorText('Cannot include spaces.')
+                    setError(true);
+                    return;
+                }
+                handleClose();
+                share(name);
+            };
+
+            return (
+                <Dialog onClose={handleClose} open={open}>
+                    <DialogTitle>Name Your Pokémon</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>Give your newly discovered Pokémon a name!</DialogContentText>
+                        <TextField
+                            autoFocus
+                            fullWidth
+                            error={error}
+                            margin="dense"
+                            id="name"
+                            label="Pokemon Name"
+                            type="text"
+                            helperText={errorText}
+                            onChange={handleChange}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={shareImage} color="primary">Share</Button>
+                    </DialogActions>
+                </Dialog>
+            );
+        }
+
         function App() {
+            const [dialogOpen, setDialogOpen] = React.useState(false);
             const classes = useStyles();
+            // Handle open and close of dialog
+            const handleDialogClose = () => setDialogOpen(false);
+            const handleDialogOpen = () => setDialogOpen(true);
             return (
                 <div className={classes.body}>
                     <AppBar>
                         <Toolbar>
                             <Typography variant="h6" className={classes.title}>
-                                Pokemon Generator
+                                Pokémon Generator
                             </Typography>
                             <div className={classes.grow} />
-                            <IconButton onClick={share}>
-                                <ShareIcon className={classes.share} />
-                            </IconButton>
+                            {
+                                navigator.share && (
+                                    <IconButton onClick={sharePage}>
+                                        <ShareIcon className={classes.share} />
+                                    </IconButton>
+                                )
+                            }
                         </Toolbar>
                     </AppBar>
                     <Container className={classes.mainDiv}>
                         <InfoDiv />
-                        <ImageCard />
+                        <ImageCard handleDialogOpen={handleDialogOpen} />
+                        <ShareDialog handleClose={handleDialogClose} open={dialogOpen} />
                         <Container className={classes.buttonContainer}>
                             <Fab onClick={generatePokemon} color="secondary" variant="extended" size="large">
                                 Generate

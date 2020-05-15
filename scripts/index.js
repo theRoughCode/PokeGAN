@@ -49,14 +49,44 @@ function generatePokemon() {
     return input;
 }
 
-function share() {
-    let url = 'https://www.raphaelkoh.me/PokeGAN/';
-    if (input != null) {
-        // Convert tensor to encoded string
-        const str = encodeTensor(input);
-        url += '?str=' + str;
+function sharePage() {
+    if (!navigator.share) {
+        return;
     }
-    navigator.share({ url });
+    navigator.share({
+        title: 'Pokémon Generator',
+        text: 'Generate your own Pokémon!',
+        url: 'https://www.raphaelkoh.me/PokeGAN/',
+    });
+}
+
+async function share(name) {
+    const { dataURL, width, height } = await generateShareImage(name);
+    const imgFile = dataURLtoFile(dataURL, `${name}.png`);
+    if (!navigator.canShare || !navigator.canShare({ files: [imgFile] })) {
+        openImageInNewTab(dataURL, width, height);
+        return;
+    }
+    navigator.share({
+        files: [imgFile],
+        title: name,
+        text: 'Generate your own Pokémon!',
+        url: 'https://www.raphaelkoh.me/PokeGAN/'
+    }).catch((err) => console.log(err));
+    // // TODO: Share image
+    // const title = 'Pokémon Generator';
+    // const text = 'Generate your own Pokémon!'
+    // let url = 'https://www.raphaelkoh.me/PokeGAN/';
+    // if (input != null) {
+    //     // Convert tensor to encoded string
+    //     const str = encodeTensor(input);
+    //     url += '?str=' + str;
+    // }
+    // navigator.share({
+    //     title,
+    //     text,
+    //     url
+    // });
 }
 
 load();
