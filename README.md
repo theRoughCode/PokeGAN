@@ -37,25 +37,29 @@ However, the sprites produced are quite small and the details are not too clear.
   <img src="assets/dcgan_mode_collapse.gif" alt="DCGAN2">
 </p>
 
-However, we see [mode collapse](https://developers.google.com/machine-learning/gan/problems#mode-collapse) occurring. So, I looked to newer models, such as Progressive GAN and StyleGAN, to generate higher quality images. I settled for Progressive GAN first because it was simpler and was what StyleGAN was based off of. Currently, I'm experimenting with a mix of DCGAN and Progressive GAN without the fade-in layers. With 3 layers, 32x32 &rarr; 68x68 &rarr; 128x128, here's a preview of what it looks like:
+However, we see [mode collapse](https://developers.google.com/machine-learning/gan/problems#mode-collapse) occurring. So, I looked to newer models, such as Progressive GAN and StyleGAN, to generate higher quality images. I settled for Progressive GAN first because it was simpler and was what StyleGAN was based off of. I experimented with a mix of DCGAN and Progressive GAN without the fade-in layers. With 3 layers, 32x32 &rarr; 68x68 &rarr; 128x128, here's what it looked like:
 <p align="center">
   <img src="assets/proggan.gif" alt="ProgGAN">
 </p>
 
-## Next Steps
-1. Use equalized learning rate in Progressive GAN
-2. StyleGAN
-3. Split dataset by types or colours. Easier to train? More detail/realistic?
-4. More filters == sharper image? Bigger kernels == smoother images? [Source](https://medium.com/@utk.is.here/keep-calm-and-train-a-gan-pitfalls-and-tips-on-training-generative-adversarial-networks-edd529764aa9)
-5. Spectral normalization in DCGAN
-6. ProgGAN might need more epochs (paper recommends 800k samples per layer)
-7. cDCGAN: conditional DCGAN using labels (i.e. Pokémon types)
-    - binary discriminator output: slow results
-    - N+1 classes
-8. Optimize gen/dis learning rate of 1:2 (i.e. generator = 1e-4, discriminator=2e-4) [source](https://arxiv.org/pdf/1706.08500.pdf)
-9. Cycle between resolutions. 64x64 (50 epochs) -> 128x128 (200 epochs) -> ...
+Here are a few things I've experimented with, with no perfect results yet:
+- Train only on a certain type of Pokémon.
+- Spectral normalization in DCGAN
+- cDCGAN: conditional DCGAN using Pokémon types as labels with binary discriminator output (slow convergence)
+- Optimize gen/dis learning rate of 1:2 (i.e. generator = 1e-4, discriminator=2e-4) [source](https://arxiv.org/pdf/1706.08500.pdf)
+- Cycle between resolutions: 64x64 (50 epochs) -> 128x128 (200 epochs) -> 64x64 (50 epochs) -> ...
     - Lower res learns outline, higher res learns details
     - Higher learning rate for low res
     - Average results, good outline, no detail. Train more epochs at high res?
-10. Train DCGAN on one class at a time
+The main reason for these techniques not yielding results is lack of training time as I'm training on Google Colab with 12hr GPU limits.
+
+Currently, the app uses Progressive GAN adapted from [here](https://machinelearningmastery.com/how-to-train-a-progressive-growing-gan-in-keras-for-synthesizing-faces/) with equalized learning rate. It is also trained on only grass-type Pokémon.
+
+## Next Steps
+1. StyleGAN
+2. Split dataset by types or colours: conditional StyleGAN/ProgressiveGAN?
+3. More filters == sharper image? Bigger kernels == smoother images? [Source](https://medium.com/@utk.is.here/keep-calm-and-train-a-gan-pitfalls-and-tips-on-training-generative-adversarial-networks-edd529764aa9)
+4. ProgGAN might need more epochs (paper recommends 800k samples per layer)
+5. cDCGAN: conditional DCGAN using labels (i.e. Pokémon types)
+    - N+1 classes
 

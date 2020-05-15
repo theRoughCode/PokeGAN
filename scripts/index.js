@@ -1,4 +1,4 @@
-let model;
+let model, input;
 
 const loadingTextArr = [
     'Catching wild Pidgeys',
@@ -12,6 +12,14 @@ const loadingTextArr = [
     'Choosing a starter Pokémon'
 ];
 
+function generateLinkedImage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.has('str')) return;
+    const str = urlParams.get('str');
+    input = decodeStr(str);
+    predict(model, input);
+}
+
 // Load model
 async function load() {
     const minWaitTime = 400;
@@ -20,15 +28,15 @@ async function load() {
     try {
         const startTime = new Date().getTime();
         model = await fetchModel();
+        // Generate image if linked
+        generateLinkedImage();
         while (new Date().getTime() - startTime < minWaitTime) {}
         $('#loading').fadeOut(500);
         setTimeout(() => {
             $('html').css('background-color', 'transparent');
             $('body').css('background-color', 'transparent');
-            // $('body').css('background-image', 'url("assets/background.jpg")');
             $('html').css('height', 'auto');
             $('body').css('height', 'auto');
-            // $('body').css('padding', '20px');
             $('#main').fadeIn(100);
         }, minWaitTime);
     } catch (error) {
@@ -37,7 +45,18 @@ async function load() {
 }
 
 function generatePokemon() {
-    predict(model);
+    input = predict(model);
+    return input;
+}
+
+function share() {
+    let url = 'https://www.raphaelkoh.me/PokeGAN/';
+    if (input != null) {
+        // Convert tensor to encoded string
+        const str = encodeTensor(input);
+        url += '?str=' + str;
+    }
+    navigator.share({ url });
 }
 
 load();

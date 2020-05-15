@@ -15,6 +15,7 @@
     <!-- Icons to support Material Design -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="icon" href="assets/favicon.ico">
   </head>
   <body>
     <div id="loading">
@@ -166,9 +167,9 @@
             
             return (
                 <Card id='image-card' className={classes.imageCard}>
-                    <img id='poke-img' src='pokemon/1.png' width="256" height="256" />
+                    <img id='poke-img' src="" width="256" height="256" />
                     <CardActions>
-                        <Button size="small" color="primary">
+                        <Button size="small" color="primary" onClick={share}>
                             Share
                         </Button>
                     </CardActions>
@@ -186,7 +187,7 @@
                                 Pokemon Generator
                             </Typography>
                             <div className={classes.grow} />
-                            <IconButton>
+                            <IconButton onClick={share}>
                                 <ShareIcon className={classes.share} />
                             </IconButton>
                         </Toolbar>

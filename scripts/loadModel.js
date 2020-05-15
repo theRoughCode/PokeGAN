@@ -49,9 +49,10 @@ const fetchModel = async () => {
   }
 };
 
-const predict = (model) => {
-  const input = tf.randomUniform([1, 100]);
+const predict = (model, input=null) => {
+  if (input == null) input = tf.randomUniform([1, 100]);
   const img = getImage(model, input);
   const flattened = flatten(img);
   loadImageData(flattened);
+  return input;
 };
